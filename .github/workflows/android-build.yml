@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # ✅ Updated to v4
 
       - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4  # ✅ Updated to v4
         with:
           node-version: '18'
 
@@ -26,11 +26,12 @@ jobs:
           cordova create myApp com.example.mywebapp MyWebApp
           cd myApp
           cordova platform add android
-          cp -r ../* myApp/www/
-          cordova build android
+          mkdir -p www  # ✅ Ensure 'www/' exists inside 'myApp'
+          cp -r ../www/* www/  # ✅ Copy files from repo's 'www/' to 'myApp/www/'
+          cordova build android --debug
 
       - name: Upload APK
-        uses: actions/upload-artifact@v4  # Updated to v4
+        uses: actions/upload-artifact@v4  # ✅ Updated to v4
         with:
           name: android-apk
           path: myApp/platforms/android/app/build/outputs/apk/debug/app-debug.apk
